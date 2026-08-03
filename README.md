@@ -1,4 +1,4 @@
-# SKILL.SCH YAML Learning Lab
+# YAML Learning Lab
 
 A hands-on YAML learning lab focused on understanding YAML syntax, data structures, data types, multiline strings, anchors, aliases, validation, and practical DevOps configuration.
 
