@@ -4,6 +4,18 @@ A hands-on YAML learning lab focused on understanding YAML syntax, data structur
 
 This repository contains practical exercises completed while learning how YAML is used to represent structured configuration data in cloud and DevOps environments.
 
+## A Brief History of YAML
+
+YAML was created in 2001 by **Clark Evans, Ingy döt Net, and Oren Ben-Kiki** as a human-friendly data serialization language designed to make structured data easier for people to read and write.
+
+The name **YAML** originally stood for **“Yet Another Markup Language.”** This reflected its early positioning alongside other markup and configuration languages. However, as YAML's purpose became clearer, the name was reinterpreted as **“YAML Ain't Markup Language”** to emphasize that YAML is a **data serialization language**, rather than a markup language.
+
+Unlike markup languages such as HTML, which primarily describe the structure and presentation of documents, YAML focuses on representing **structured data and configuration** in a format that is easy for both humans and machines to understand.
+
+YAML has since become widely used in modern software development and DevOps for configuration files, CI/CD pipelines, Kubernetes manifests, infrastructure automation, application settings, and other machine-readable configuration.
+
+This repository demonstrates YAML's evolution from a human-friendly data format into a practical tool for modern **cloud engineering, DevOps, automation, and configuration management**.
+
 ## What I Practiced
 
 - YAML key-value pairs and mappings
