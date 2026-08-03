@@ -1,0 +1,13 @@
+defaults: &default
+  country: Nigeria
+  role: Student
+
+student1:
+  <<: *default
+  name: Raphael
+
+student2:
+  <<: *default
+  name: Sarah
+---
+name: Third Document Stream

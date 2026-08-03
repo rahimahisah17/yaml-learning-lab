@@ -1,0 +1,7 @@
+employees:
+  - name: Raphael
+    role: Cloud Engineer
+  - name: Sarah
+    role: DevOps Engineer
+  - name: David
+    role: Solution Architect

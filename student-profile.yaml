@@ -1,0 +1,42 @@
+default_profile: &default
+  role: Student
+  country: Nigeria
+  active: true
+  score: 95.5
+
+name: Raphael
+role: Cloud Engineer
+country: Nigeria
+city: Abuja
+
+skills:
+  - Azure
+  - Docker
+  - Kubernetes
+
+hobbies:
+  - Coding
+  - Reading
+
+address:
+  street: 12 Cloud Way
+  city: Abuja
+  country: Nigeria
+
+bio_literal: |
+  I enjoy learning Azure.
+  I build cloud solutions.
+  I teach DevOps.
+
+bio_folded: >
+  I enjoy learning Azure.
+  I build cloud solutions.
+  I teach DevOps.
+
+user1:
+  <<: *default
+  name: Sarah
+
+user2:
+  <<: *default
+  name: David

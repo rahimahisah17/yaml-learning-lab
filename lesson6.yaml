@@ -1,0 +1,10 @@
+person:
+  name: Raphael
+  age: 30
+  salary: 4500.50
+  active: true
+  verified: false
+  phone: null
+  address:
+    city: Abuja
+    country: Nigeria
