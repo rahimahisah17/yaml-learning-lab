@@ -1,5 +1,12 @@
 # YAML Learning Lab
 
+![YAML](https://img.shields.io/badge/YAML-Configuration-FFCA28?logo=yaml&logoColor=black)
+![DevOps](https://img.shields.io/badge/DevOps-Configuration-2496ED?logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?logo=githubactions&logoColor=white)
+![Python](https://img.shields.io/badge/Python-PyYAML-3776AB?logo=python&logoColor=white)
+![Git](https://img.shields.io/badge/Git-Version_Control-F05032?logo=git&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Complete-2EA44F)
+
 A hands-on YAML learning lab focused on understanding YAML syntax, data structures, data types, multiline strings, anchors, aliases, validation, and practical DevOps configuration.
 
 This repository contains practical exercises completed while learning how YAML is used to represent structured configuration data in cloud and DevOps environments.
