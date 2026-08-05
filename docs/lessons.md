@@ -570,10 +570,9 @@ anchors.yaml
 ![Parsed anchors, aliases, and merge keys output](../screenshots/09b-anchors-parsed-output.png)
 
 ---
-
 ## 9. Multi-Document YAML
 
-A single YAML file can contain multiple independent YAML documents.
+A YAML file can contain **multiple independent YAML documents**. Each document can contain its own mappings, sequences, or other YAML structures.
 
 The document separator is:
 
@@ -581,38 +580,167 @@ The document separator is:
 ---
 ```
 
-### Example
+The `---` separator marks the beginning of a new YAML document.
+
+### Practical Example
+
+The `anchors.yaml` file used in this lab contains two YAML documents:
 
 ```yaml
+defaults: &default
+  country: Nigeria
+  role: Student
+
 student1:
+  <<: *default
   name: Raphael
 
+student2:
+  <<: *default
+  name: Sarah
 ---
 name: Third Document Stream
 ```
 
-The `---` separator marks the beginning of another YAML document.
+The first document contains the `defaults`, `student1`, and `student2` mappings.
 
-The `anchors.yaml` file demonstrates this feature.
+The `---` separator then starts a second, independent document:
 
-### Important validation consideration
+```yaml
+name: Third Document Stream
+```
 
-Because `anchors.yaml` contains multiple documents, it must be parsed using a YAML loader that supports multiple documents.
+The file therefore contains:
 
-This repository uses:
+```text
+Document 1
+    ↓
+defaults
+student1
+student2
+
+---
+    
+Document 2
+    ↓
+name: Third Document Stream
+```
+
+### Viewing the YAML File
+
+The contents of the file can be displayed directly in the terminal:
+
+```bash
+cat anchors.yaml
+```
+
+This shows the YAML source, including the `---` document separator.
+
+### Parsing Multiple YAML Documents
+
+When a YAML file contains multiple documents, PyYAML provides:
 
 ```python
 yaml.safe_load_all()
 ```
 
-instead of:
+to read all documents in the file.
+
+The following command parses the actual `anchors.yaml` file and displays each document separately:
+
+```bash
+python3 -c 'import yaml; docs=list(yaml.safe_load_all(open("anchors.yaml"))); [print(f"DOCUMENT {i}:\n{yaml.dump(doc, sort_keys=False)}") for i, doc in enumerate(docs, 1)]'
+```
+
+The output demonstrates that the `---` separator has created two independent documents:
+
+```text
+DOCUMENT 1:
+defaults:
+  country: Nigeria
+  role: Student
+student1:
+  country: Nigeria
+  role: Student
+  name: Raphael
+student2:
+  country: Nigeria
+  role: Student
+  name: Sarah
+
+DOCUMENT 2:
+name: Third Document Stream
+```
+
+The important point is that the parser does **not** treat the entire file as one mapping. It returns two separate YAML documents.
+
+### `safe_load()` vs `safe_load_all()`
+
+For a file containing a single YAML document, `yaml.safe_load()` is sufficient:
 
 ```python
 yaml.safe_load()
 ```
 
-when validating all YAML files.
+For a file containing multiple documents, use:
 
+```python
+yaml.safe_load_all()
+```
+
+For example:
+
+```python
+documents = list(yaml.safe_load_all(open("anchors.yaml")))
+```
+
+The `list()` converts the returned document iterator into a list, allowing all documents to be accessed and processed.
+
+The first document can be accessed with:
+
+```python
+documents[0]
+```
+
+and the second document with:
+
+```python
+documents[1]
+```
+
+### Why Multi-Document YAML Is Useful
+
+Multiple YAML documents can be useful when related but independent configurations need to be stored in the same file.
+
+Common examples include:
+
+- Kubernetes manifests
+- Deployment configurations
+- Infrastructure definitions
+- CI/CD configuration
+- Multiple related resources
+
+The `anchors.yaml` file in this repository demonstrates both **YAML anchors and aliases** and **multiple YAML documents**.
+
+The first document demonstrates:
+
+```text
+&default  → anchor
+*default  → alias
+<<        → merge key
+```
+
+The second document demonstrates:
+
+```text
+---       → document separator
+```
+
+The complete example is contained in:
+
+```text
+anchors.yaml
+```
 ---
 
 ## 10. GitHub Actions Workflow
@@ -802,6 +930,7 @@ No illegal tab characters found!
 The validation process therefore checks two important areas:
 
 1. **YAML syntax and document structure** using Python and PyYAML.
+
 2. **Indentation safety** by checking for illegal tab characters.
 
 Together, these checks help ensure that the YAML files are syntactically valid and consistently formatted before they are used by automation or DevOps tooling.
@@ -892,6 +1021,17 @@ bio_folded: >
   I build cloud solutions.
   I teach DevOps.
 ```
+### Practical Verification
+
+The `student-profile.yaml` file can be parsed with PyYAML using `yaml.safe_load()`:
+
+```bash
+python3 -c 'import yaml; data=yaml.safe_load(open("student-profile.yaml")); print(yaml.dump(data, sort_keys=False))'
+```
+
+This parses the YAML and displays the resulting configuration, including the resolved anchor and merged properties.
+
+The result can be captured in ![complete student profile](11-student-profile-challenge.png).
 
 This makes `student-profile.yaml` a consolidated example of the YAML structures and syntax covered throughout the repository.
 
