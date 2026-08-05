@@ -365,6 +365,8 @@ This distinction is particularly useful when YAML contains **shell scripts, CI/C
 
 ![Multiline strings](../screenshots/08-multiline-strings.png)
 
+![Parsed multiline string output](../screenshots/08b-multiline-parsed-output.png)
+
 ---
 
 ## 8. Anchors, Aliases, and Merge Keys
