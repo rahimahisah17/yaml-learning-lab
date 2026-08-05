@@ -105,7 +105,7 @@ person:
 
 In this example, `name` belongs to `person`.
 
-Incorrect indentation can change the structure of the data or cause a YAML parsing error.
+Incorrect indentation can change the structure of the data or cause a **YAML parsing error**.
 
 ---
 
@@ -488,7 +488,9 @@ If no tabs are found, the command prints:
 No illegal tab characters found!
 ```
 
----## 11. YAML Validation
+---
+
+## 11. YAML Validation
 
 YAML configuration should be validated before being used by automation systems. A syntax error, incorrect indentation, or unsupported structure can cause a deployment, CI/CD pipeline, or automation task to fail.
 
