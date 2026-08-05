@@ -1031,7 +1031,9 @@ python3 -c 'import yaml; data=yaml.safe_load(open("student-profile.yaml")); prin
 
 This parses the YAML and displays the resulting configuration, including the resolved anchor and merged properties.
 
-The result can be captured in ![complete student profile](11-student-profile-challenge.png).
+The result can be captured in `11-student-profile-challenge.png`
+
+![complete student profile](../screenshots/11-student-profile-challenge.png).
 
 This makes `student-profile.yaml` a consolidated example of the YAML structures and syntax covered throughout the repository.
 
