@@ -563,7 +563,7 @@ The result is also captured in [12-yaml-validation.png](../screenshots/12-yaml-v
 | `-n` | Displays the line number where a match is found. |
 | `$'\t'` | Bash syntax representing a literal tab character. |
 | `*.yaml` | Targets every `.yaml` file in the current directory. |
-| `||` | Bash OR operator. The command on the right runs only if the command on the left fails to find a match. |
+| `\|\|` | Bash OR operator. The command on the right runs only if the command on the left fails. |
 | `echo` | Prints text to the terminal. |
 | `'No illegal tab characters found!'` | The message displayed when no tab characters are detected. |
 
