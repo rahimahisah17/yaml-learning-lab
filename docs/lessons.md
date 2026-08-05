@@ -259,18 +259,18 @@ lesson7.yaml
 
 ---
 
-## 7. Multiline Strings
+## Multiline Strings
 
-YAML provides block scalar syntax for storing multiline text.
+YAML provides **block scalar syntax** for storing multiline text. Two commonly used block scalar styles are:
 
-There are two important styles:
+- `|` — **literal block**: preserves line breaks.
+- `>` — **folded block**: folds line breaks into spaces.
 
-- `|` — literal block
-- `>` — folded block
+The difference becomes clear when the YAML is actually parsed.
 
-### Literal block: `|`
+### Literal Block: `|`
 
-The pipe character preserves line breaks.
+The `|` character tells YAML to preserve the line breaks within the value.
 
 ```yaml
 bio_literal: |
@@ -279,11 +279,25 @@ bio_literal: |
   I teach DevOps.
 ```
 
-This is useful when the original line structure should be retained.
+When parsed, the resulting value contains newline characters:
 
-### Folded block: `>`
+```text
+'I enjoy learning Azure.\nI build cloud solutions.\nI teach DevOps.\n'
+```
 
-The greater-than character folds consecutive lines into a single paragraph-like value.
+The output is therefore:
+
+```text
+I enjoy learning Azure.
+I build cloud solutions.
+I teach DevOps.
+```
+
+Each line remains on its own line.
+
+### Folded Block: `>`
+
+The `>` character tells YAML to fold the line breaks between ordinary text lines into spaces.
 
 ```yaml
 bio_folded: >
@@ -292,13 +306,64 @@ bio_folded: >
   I teach DevOps.
 ```
 
-This is useful when the text is logically one paragraph but is split across multiple lines in the YAML file for readability.
-
-The examples are contained in:
+When parsed, the resulting value becomes:
 
 ```text
-multiline.yaml
+'I enjoy learning Azure. I build cloud solutions. I teach DevOps.\n'
 ```
+
+The output is therefore:
+
+```text
+I enjoy learning Azure. I build cloud solutions. I teach DevOps.
+```
+
+The lines are written separately in the YAML file for readability, but YAML folds them into a single paragraph-like value.
+
+### Comparing `|` and `>`
+
+| Syntax | Behavior | Parsed result |
+|---|---|---|
+| `\|` | Preserves line breaks | Each line remains separate |
+| `>` | Folds ordinary line breaks into spaces | Lines become part of one continuous paragraph |
+
+A simple way to remember the difference:
+
+```text
+|  → preserve line breaks
+>  → fold line breaks into spaces
+```
+
+### Verifying the Difference with Python and PyYAML
+
+The difference can be confirmed by parsing the YAML with PyYAML and displaying the Python string representation.
+
+For example:
+
+```bash
+python3 -c 'import yaml; d=yaml.safe_load(open("multiline-test.yaml")); print("LITERAL:"); print(repr(d["literal"])); print("\nFOLDED:"); print(repr(d["folded"]))'
+```
+
+The parsed output demonstrates the difference:
+
+```text
+LITERAL:
+'Line one\nLine two\nLine three\n'
+
+FOLDED:
+'Line one Line two Line three\n'
+```
+
+Here, `\n` represents a newline character.
+
+Therefore:
+
+- `|` preserves the newline characters between the lines.
+- `>` replaces the ordinary line breaks with spaces.
+
+This distinction is particularly useful when YAML contains **shell scripts, CI/CD commands, configuration blocks, descriptions, or other multiline content**.
+
+![Multiline strings](../screenshots/08-multiline-strings.png)
 
 ---
 
