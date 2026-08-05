@@ -259,7 +259,7 @@ lesson7.yaml
 
 ---
 
-## Multiline Strings
+## 7. Multiline Strings
 
 YAML provides **block scalar syntax** for storing multiline text. Two commonly used block scalar styles are:
 
@@ -371,11 +371,21 @@ This distinction is particularly useful when YAML contains **shell scripts, CI/C
 
 ## 8. Anchors, Aliases, and Merge Keys
 
-YAML anchors allow a configuration block to be defined once and reused.
+YAML provides **anchors, aliases, and merge keys** for defining configuration once and reusing it in other mappings.
 
-An anchor is created using `&`.
+These features are useful when multiple objects share common configuration values.
 
-### Defining an anchor
+The three symbols used in this section are:
+
+| Symbol | Purpose |
+|---|---|
+| `&` | Creates an anchor |
+| `*` | References an anchor using an alias |
+| `<<` | Merges the referenced mapping into another mapping |
+
+### Defining an Anchor with `&`
+
+An anchor is created using `&` followed by the name of the anchor.
 
 ```yaml
 defaults: &default
@@ -383,9 +393,26 @@ defaults: &default
   role: Student
 ```
 
-The configuration can then be referenced using an alias with `*`.
+In this example:
 
-### Using an alias
+```text
+&default
+```
+
+creates an anchor named `default`.
+
+The anchor stores the following mapping:
+
+```yaml
+country: Nigeria
+role: Student
+```
+
+Instead of repeating these properties for every student, the configuration can be reused.
+
+### Referencing the Anchor with `*`
+
+An alias is created using `*` followed by the name of an existing anchor.
 
 ```yaml
 student1:
@@ -393,9 +420,55 @@ student1:
   name: Raphael
 ```
 
-The `<<` merge key incorporates the anchored properties into the new mapping.
+Here:
 
-Another object can reuse the same configuration:
+```text
+*default
+```
+
+references the configuration stored under the `default` anchor.
+
+### Understanding the `<<` Merge Key
+
+The `<<` symbol is the YAML **merge key**.
+
+It tells YAML to merge the mapping referenced by the alias into the current mapping.
+
+In:
+
+```yaml
+student1:
+  <<: *default
+  name: Raphael
+```
+
+the following:
+
+```yaml
+<<: *default
+```
+
+merges:
+
+```yaml
+country: Nigeria
+role: Student
+```
+
+into `student1`.
+
+The resulting mapping is effectively:
+
+```yaml
+student1:
+  country: Nigeria
+  role: Student
+  name: Raphael
+```
+
+### Reusing the Same Anchor
+
+The same anchor can be reused for another object:
 
 ```yaml
 student2:
@@ -403,15 +476,80 @@ student2:
   name: Sarah
 ```
 
-This avoids repeating common configuration values.
+This produces:
 
-The complete example is contained in:
-
-```text
-anchors.yaml
+```yaml
+student2:
+  country: Nigeria
+  role: Student
+  name: Sarah
 ```
 
-### Why anchors are useful
+Both students reuse the same `country` and `role` values without having to repeat them.
+
+### Complete Lab Example
+
+The complete example used in this lab is:
+
+```yaml
+defaults: &default
+  country: Nigeria
+  role: Student
+
+student1:
+  <<: *default
+  name: Raphael
+
+student2:
+  <<: *default
+  name: Sarah
+```
+
+The process can be understood as:
+
+```text
+&default
+    ↓
+Creates the reusable anchor
+
+*default
+    ↓
+References the anchor
+
+<<: *default
+    ↓
+Merges the anchored properties into the current mapping
+```
+
+### Actual Parsed Result
+
+The YAML can be parsed with PyYAML to verify what the anchor, alias, and merge key produce.
+
+For example:
+
+```bash
+python3 -c 'import yaml; d=yaml.safe_load(open("anchors.yaml")); print(yaml.dump(d, sort_keys=False))'
+```
+
+The resulting configuration should be:
+
+```yaml
+defaults:
+  country: Nigeria
+  role: Student
+student1:
+  country: Nigeria
+  role: Student
+  name: Raphael
+student2:
+  country: Nigeria
+  role: Student
+  name: Sarah
+```
+
+This demonstrates that the values defined once under `defaults` have been incorporated into both `student1` and `student2`.
+
+### Why Anchors, Aliases, and Merge Keys Are Useful
 
 Anchors and aliases can help:
 
@@ -419,6 +557,17 @@ Anchors and aliases can help:
 - Reuse common settings
 - Keep related configuration consistent
 - Make large configuration files easier to maintain
+- Apply shared configuration to multiple objects
+
+The complete lab example is contained in:
+
+```text
+anchors.yaml
+```
+
+![Anchors, aliases, and merge keys](../screenshots/09-anchors-aliases.png)
+
+![Parsed anchors, aliases, and merge keys output](../screenshots/09b-anchors-parsed-output.png)
 
 ---
 
